@@ -1,3 +1,19 @@
+def display_numbers():
+    try:
+        with open('numbers.txt', 'r') as file:
+            numbers = file.read().split(',')
+            
+            for number in numbers:
+                print(number)
+    except FileNotFoundError:
+        print("Error: numbers.txt file not found")
+    except Exception as e:
+        print(f"Error: {e}")
+
+if __name__ == '__main__':
+    display_numbers()
+
+"""
 #!/usr/bin/env -S ruby -w
 
 def sort_numbers_from_file
@@ -17,8 +33,9 @@ def sort_numbers_from_file
 end
   
 sort_numbers_from_file
+"""
 
-=begin
+"""
 <?php
     if (!file_exists('numbers.txt')) {
         die("Error: numbers.txt file not found\n");
@@ -30,4 +47,4 @@ sort_numbers_from_file
         echo trim($value) . "\n";
     }
 ?>
-=end
+"""
