@@ -1,3 +1,134 @@
+def parse_element(line):
+    """Parse a single element line into a dictionary."""
+    name, data = line.strip().split(' = ')
+    properties = {}
+    properties['name'] = name
+    
+    for prop in data.split(', '):
+        key, value = prop.split(':')
+        properties[key] = value
+    
+    return properties
+
+def create_element_cell(element):
+    """Create an HTML table cell for an element."""
+    return f"""    <td class="element">
+        <div class="number">{element['number']}</div>
+        <div class="symbol">{element['small']}</div>
+        <div class="name">{element['name']}</div>
+        <div class="mass">{element['molar']}</div>
+    </td>"""
+
+def generate_periodic_table():
+    """Generate the complete periodic table HTML."""
+    elements = []
+    with open('periodic_table.txt', 'r') as f:
+        for line in f:
+            elements.append(parse_element(line))
+    
+    grid = [[None for _ in range(18)] for _ in range(10)]
+    
+    for element in elements:
+        position = int(element['position'])
+        row = 0
+        num = int(element['number'])
+        if num <= 2:
+            row = 0
+        elif num <= 10:
+            row = 1
+        elif num <= 18:
+            row = 2
+        elif num <= 36:
+            row = 3
+        elif num <= 54:
+            row = 4
+        elif num <= 86:
+            row = 5
+        elif num <= 118:
+            row = 6
+        
+        grid[row][position] = element
+    
+    html = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Periodic Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        table {
+            border-collapse: separate;
+            border-spacing: 2px;
+            margin: 0 auto;
+        }
+        .element {
+            width: 70px;
+            height: 80px;
+            padding: 4px;
+            text-align: center;
+            position: relative;
+            transition: transform 0.2s;
+            border-radius: 2px;
+            background-color: #d6d6d6;
+        }
+        .element:hover {
+            transform: scale(2);
+            z-index: 1;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+        .number {
+            font-size: 10px;
+            text-align: left;
+        }
+        .symbol {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 4px 0;
+        }
+        .name {
+            font-size: 10px;
+            margin-bottom: 2px;
+        }
+        .mass {
+            font-size: 9px;
+            color: #666;
+        }
+        .empty {
+            width: 70px;
+            height: 80px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <table>"""
+    
+    for row in grid:
+        if any(row):
+            html += "\n        <tr>"
+            for element in row:
+                if element:
+                    html += "\n" + create_element_cell(element)
+                else:
+                    html += '\n            <td class="empty"></td>'
+            html += "\n        </tr>"
+    
+    html += """
+    </table>
+</body>
+</html>"""
+    
+    with open('periodic_table.html', 'w') as f:
+        f.write(html)
+
+if __name__ == '__main__':
+    generate_periodic_table()
+
+'''
 #!/usr/bin/env -S ruby -w
 
 def parse_element(line)
@@ -6,7 +137,6 @@ def parse_element(line)
         key, value = attr.split(':')
         [key, value]
     end.to_h
-    
     attrs['name'] = name
     attrs
 end
@@ -41,13 +171,11 @@ def generate_periodic_table
                     margin: 20px;
                     background-color: #f5f5f5;
                 }
-                
                 table {
                     border-collapse: separate;
                     border-spacing: 2px;
                     margin: 0 auto;
                 }
-                
                 .element {
                     width: 70px;
                     height: 80px;
@@ -57,39 +185,32 @@ def generate_periodic_table
                     transition: transform 0.2s;
                     border-radius: 2px;
                 }
-                
                 .element:hover {
                     transform: scale(2);
                     z-index: 1;
                     box-shadow: 0 0 10px rgba(0,0,0,0.3);
                 }
-                
                 .number {
                     font-size: 10px;
                     text-align: left;
                 }
-                
                 .symbol {
                     font-size: 18px;
                     font-weight: bold;
                     margin: 4px 0;
                 }
-                
                 .name {
                     font-size: 10px;
                     margin-bottom: 2px;
                 }
-                
                 .mass {
                     font-size: 9px;
                     color: #666;
                 }
-                
                 .empty {
                     width: 70px;
                     height: 80px;
                 }
-
                 .box {
                     background-color: #d6d6d6;
                 }
@@ -98,44 +219,36 @@ def generate_periodic_table
         <body>
             <table>
     HTML
-
     current_row = []
     max_position = 17
-    
     elements.each do |element|
         position = element['position'].to_i
-
         while current_row.length < position
             current_row << create_empty_cell
         end
-        
         current_row << create_element_html(element)
-        
         if position == max_position
             html += "        <tr>#{current_row.join("\n")}</tr>\n"
             current_row = []
         end
     end
-
     html += "        <tr>#{current_row.join("\n")}</tr>\n" unless current_row.empty?
-
     html += <<~HTML
             </table>
         </body>
         </html>
     HTML
-    
     File.write('periodic_table.html', html)
 end
-
 generate_periodic_table
+'''
 
-=begin
+'''
 <?php
     $elements = [];
     $lines = file('ex06.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     foreach ($lines as $line) {
-        if (preg_match('/^(\w+)\s*=\s*position:(\d+),\s*number:(\d+),\s*small:\s*(\w+),\s*molar:([\d.]+),\s*electron:(.+)$/', $line, $matches)) {
+        if (preg_match('removed regex to prevent python warning', $line, $matches)) {
             $elements[] = [
                 'name' => $matches[1],
                 'position' => (int)$matches[2],
@@ -253,4 +366,4 @@ generate_periodic_table
     $html .= '</table></body></html>';
     file_put_contents('mendeleiev.html', $html);
 ?>
-=end
+'''
