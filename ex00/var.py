@@ -30,7 +30,6 @@ def my_var
     b = "10"
     c = nil
     d = 10.0
-
     puts "my variables :"
     puts "    a contains: #{a} and is a type: #{a.class}"
     puts "    b contains: #{b} and is a type: #{b.class}"
@@ -51,7 +50,6 @@ my_var
     $b = "10";
     $c = "ten";
     $d = 10.0;
-
     echo "My first variables:\n";
     echo "a contains : " . $a . " and has type : " . gettype($a) . "\n";
     echo "b contains : " . $b . " and has type : " . gettype($b) . "\n";

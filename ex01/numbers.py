@@ -19,11 +19,8 @@ if __name__ == '__main__':
 def sort_numbers_from_file
     begin
         numbers_text = File.read('numbers.txt')
-      
         numbers = numbers_text.split(',').map(&:strip).map(&:to_i)
-      
         sorted_numbers = numbers.sort
-      
         sorted_numbers.each { |num| puts num }
     rescue Errno::ENOENT
         puts "Error: numbers.txt file not found"
