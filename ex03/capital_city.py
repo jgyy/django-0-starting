@@ -1,3 +1,32 @@
+import sys
+
+def get_capital_city(state):
+    states = {
+        "Oregon" : "OR",
+        "Alabama" : "AL",
+        "New Jersey": "NJ",
+        "Colorado" : "CO"
+    }
+
+    capital_cities = {
+        "OR": "Salem",
+        "AL": "Montgomery",
+        "NJ": "Trenton",
+        "CO": "Denver"
+    }
+
+    if state in states:
+        state_abbrev = states[state]
+        return capital_cities[state_abbrev]
+    else:
+        return "Unknown state"
+
+if __name__ == '__main__':
+    if len(sys.argv) == 2:
+        result = get_capital_city(sys.argv[1])
+        print(result)
+
+"""
 #!/usr/bin/env -S ruby -w
 
 def find_capital(state_name)
@@ -7,20 +36,16 @@ def find_capital(state_name)
         "New Jersey" => "NJ",
         "Colorado" => "CO"
     }
-    
     capitals_cities = {
         "OR" => "Salem",
         "AL" => "Montgomery",
         "NJ" => "Trenton",
         "CO" => "Denver"
     }
-    
     if ARGV.length != 1
         return
     end
-    
     state_abbrev = states[state_name]
-    
     if state_abbrev
         puts capitals_cities[state_abbrev]
     else
@@ -29,8 +54,9 @@ def find_capital(state_name)
 end
 
 find_capital(ARGV[0])
+"""
 
-=begin
+"""
 <?php
     $states = [
         'Oregon' => 'OR',
@@ -58,4 +84,4 @@ find_capital(ARGV[0])
     echo capital_city_from('Oregon');
     echo capital_city_from('Origan');
 ?>
-=end
+"""
