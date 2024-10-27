@@ -155,3 +155,4 @@ dmypy.json
 cython_debug/
 numbers.txt
 periodic_table.txt
+periodic_table.html
