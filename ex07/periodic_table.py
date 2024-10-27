@@ -48,7 +48,7 @@ def generate_periodic_table():
             row = 6
         
         grid[row][position] = element
-    
+    # python3 -m http.server 8080
     html = """<!DOCTYPE html>
 <html lang="en">
 <head>
